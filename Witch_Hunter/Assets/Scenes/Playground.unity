@@ -23567,6 +23567,7 @@ GameObject:
   - component: {fileID: 6982812147933622147}
   - component: {fileID: 4416926083347132233}
   - component: {fileID: 4416926083347132232}
+  - component: {fileID: 6982812147933622148}
   - component: {fileID: 5885216829670671795}
   - component: {fileID: 135756641613574975}
   - component: {fileID: 4416926083347132239}
@@ -25370,6 +25371,27 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6982812147933622148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4416926083347132227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faba963571d91d444a159a48d82f915c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerAnim: {fileID: 0}
+  sword: {fileID: 0}
+  swordOnShoulder: {fileID: 0}
+  isEquipping: 0
+  isEquipped: 0
+  isBlocking: 0
+  isKicking: 0
+  isAttacking: 0
+  currentAttack: 0
 --- !u!4 &6983258930626336602
 Transform:
   m_ObjectHideFlags: 0
