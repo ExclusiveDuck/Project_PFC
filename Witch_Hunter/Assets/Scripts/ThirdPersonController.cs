@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor.ShaderKeywordFilter;
+using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
 #endif
@@ -122,9 +123,14 @@ namespace StarterAssets
             }
         }
 
+        //PlayerControllerParamaeters
+        private PlayerController playerController;
 
         private void Awake()
         {
+            playerController = gameObject.GetComponent<PlayerController>();
+
+
             // get a reference to our main camera
             if (_mainCamera == null)
             {
@@ -213,6 +219,9 @@ namespace StarterAssets
 
         private void Move()
         {
+            if (playerController.isEquipping || playerController.isBlocking || playerController.isKicking || playerController.isAttacking)
+                return;
+
             // set target speed based on move speed, sprint speed and if sprint is pressed
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 

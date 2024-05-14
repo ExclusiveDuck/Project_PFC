@@ -20,8 +20,15 @@ namespace StarterAssets
 		public bool cursorLocked = true;
 		public bool cursorInputForLook = true;
 
+		private PlayerController playerController;
+
+        private void Awake()
+        {
+			playerController = gameObject.GetComponent<PlayerController>();
+        }
+
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
-		public void OnMove(InputValue value)
+        public void OnMove(InputValue value)
 		{
 			MoveInput(value.Get<Vector2>());
 		}
@@ -36,7 +43,9 @@ namespace StarterAssets
 
 		public void OnJump(InputValue value)
 		{
-			JumpInput(value.isPressed);
+            if (playerController.isBlocking || playerController.isKicking || playerController.isAttacking)
+                return;
+            JumpInput(value.isPressed);
 		}
 
 		public void OnSprint(InputValue value)
