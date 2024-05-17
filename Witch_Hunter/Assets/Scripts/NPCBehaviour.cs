@@ -8,14 +8,20 @@ public class NPCBehaviour : MonoBehaviour
     public AIState myState = AIState.Patrol;
     public NavMeshAgent agent;
     public List<PatrolPoint> myPatrolPoints = new List<PatrolPoint>();
+
     public bool canSeePlayer = false;
     public float fieldOfView = 100f;
     public int myPatrolPointIndex = -1;
+    public bool isAlive = true;
+    public Transform eyePosition;
 
+    public GameObject target;
 
+    private RaycastHit hit;
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        target = GameObject.Find("Player");
     }
 
     void Update()
@@ -39,6 +45,10 @@ public class NPCBehaviour : MonoBehaviour
 
     void Patrol()
     {
+        //if no patrol points then dont try to patrol
+        if (myPatrolPoints.Count < 1)
+            return;
+
         //Debug.Log("I'm Patrolling");
 
         //set up first patrol point on start
@@ -82,9 +92,47 @@ public class NPCBehaviour : MonoBehaviour
     {
         //check if we can see the player
 
+        if (agent.isOnNavMesh && agent.isActiveAndEnabled)
+        {
+            if (isAlive)
+            {
+                //draw a Linecast from the enemy to the player
+                if (Physics.Linecast(eyePosition.transform.position, target.transform.position + transform.up * 1f, out hit))
+                {
+                    Debug.Log(hit.collider.name);
+
+                    //if the name of the collider on the player (targer) == the name of the collider the raycast hit first...
+                    if (hit.collider.name == "Paladin WProp J Nordstrom")
+                    {
+                        // if player is in my FieldOfView
+                        if (Vector3.Angle(target.transform.position - eyePosition.transform.position, transform.forward) <= fieldOfView / 2)
+                        {
+                            // draw GREEN line
+                            Debug.DrawLine(eyePosition.transform.position, target.transform.position + transform.up * 1f, Color.green, 0.1f);
+                            canSeePlayer = true;
+                        }
+                        else
+                        {
+                            //draw BLUE line (player is outside fieldofview)
+                            Debug.DrawLine(eyePosition.transform.position, target.transform.position + transform.up * 1f, Color.blue, 0.1f);
+                            canSeePlayer = false;
+                        }
+                    }
+                    else
+                    {
+                        //draw RED line (player is blocked by something)
+                        Debug.DrawLine(eyePosition.transform.position, target.transform.position + transform.up * 1f, Color.red, 0.1f);
+                        canSeePlayer = false;
+                    }
+                }
+            }
+        }
     }
 
  
+
+
+
 
     public void SetDestination(Vector3 destination, float stoppingDistance)
     // My own custom way of giving an NPC a new destination (as well as being able to pass in a stoppingDistance (-1 for no change)
