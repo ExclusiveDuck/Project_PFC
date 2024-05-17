@@ -10,6 +10,7 @@ public class NPCBehaviour : MonoBehaviour
     public List<PatrolPoint> myPatrolPoints = new List<PatrolPoint>();
     public bool canSeePlayer = false;
     public float fieldOfView = 100f;
+    public int myPatrolPointIndex = -1;
 
 
     private void Awake()
@@ -38,7 +39,33 @@ public class NPCBehaviour : MonoBehaviour
 
     void Patrol()
     {
-        Debug.Log("I'm Patrolling");
+        //Debug.Log("I'm Patrolling");
+
+        //set up first patrol point on start
+        if (myPatrolPointIndex == -1)
+        {
+            myPatrolPointIndex = 0;
+            MoveToNewPatrolPoint();
+        }
+        
+        //check if agent has reached patrol point
+        if (Vector3.Distance (transform.position, myPatrolPoints[myPatrolPointIndex].transform.position) < 1f)
+        {
+            // increment patrol point
+            myPatrolPointIndex++;
+            if (myPatrolPointIndex == myPatrolPoints.Count)
+            myPatrolPointIndex = 0;
+
+            MoveToNewPatrolPoint();
+        }
+    }
+
+    void MoveToNewPatrolPoint()
+    {
+        //send agent to patrol point
+        SetDestination(myPatrolPoints[myPatrolPointIndex].transform.position, 0);
+
+
     }
 
     void Chase()
