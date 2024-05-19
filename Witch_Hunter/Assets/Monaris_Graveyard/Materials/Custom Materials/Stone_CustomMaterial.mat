@@ -10,8 +10,6 @@ Material:
   m_Name: Stone_CustomMaterial
   m_Shader: {fileID: -6465566751694194690, guid: 73d53571f89537b4f88eb33712f6fc19,
     type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -20,7 +18,6 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -100,6 +97,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Triplanar_4d6efc44db404b4c93ca0d5d3410a36f_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 797b1117303870a4e84b23505986cf3d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Triplanar_4d6efc44db404b4c93ca0d5d3410a36f_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 797b1117303870a4e84b23505986cf3d, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -124,6 +125,7 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaToMask: 0
+    - _BOOLEAN: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1

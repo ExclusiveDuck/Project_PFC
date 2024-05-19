@@ -74,8 +74,6 @@ public class NPCBehaviour : MonoBehaviour
     {
         //send agent to patrol point
         SetDestination(myPatrolPoints[myPatrolPointIndex].transform.position, 0);
-
-
     }
 
     void Chase()
