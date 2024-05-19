@@ -14,14 +14,15 @@ public class NPCBehaviour : MonoBehaviour
     public int myPatrolPointIndex = -1;
     public bool isAlive = true;
     public Transform eyePosition;
-
+    public RaycastHit hit;
     public GameObject target;
+    public float debugLineDuration = 1f;
 
-    private RaycastHit hit;
+    
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        target = GameObject.Find("Player");
+        target = GameObject.Find("PlayerArmature");
     }
 
     void Update()
@@ -95,31 +96,31 @@ public class NPCBehaviour : MonoBehaviour
             if (isAlive)
             {
                 //draw a Linecast from the enemy to the player
-                if (Physics.Linecast(eyePosition.transform.position, target.transform.position + transform.up * 1f, out hit))
+                if (Physics.Linecast(eyePosition.position, target.transform.position + transform.up * 1f, out hit))
                 {
                     Debug.Log(hit.collider.name);
 
                     //if the name of the collider on the player (targer) == the name of the collider the raycast hit first...
-                    if (hit.collider.name == "Paladin WProp J Nordstrom")
+                    if (hit.collider.name == "PlayerArmature")
                     {
                         // if player is in my FieldOfView
                         if (Vector3.Angle(target.transform.position - eyePosition.transform.position, transform.forward) <= fieldOfView / 2)
                         {
                             // draw GREEN line
-                            Debug.DrawLine(eyePosition.transform.position, target.transform.position + transform.up * 1f, Color.green, 0.1f);
+                            Debug.DrawLine(eyePosition.transform.position, target.transform.position + transform.up * 1f, Color.green, debugLineDuration);
                             canSeePlayer = true;
                         }
                         else
                         {
                             //draw BLUE line (player is outside fieldofview)
-                            Debug.DrawLine(eyePosition.transform.position, target.transform.position + transform.up * 1f, Color.blue, 0.1f);
+                            Debug.DrawLine(eyePosition.transform.position, target.transform.position + transform.up * 1f, Color.blue, debugLineDuration);
                             canSeePlayer = false;
                         }
                     }
                     else
                     {
                         //draw RED line (player is blocked by something)
-                        Debug.DrawLine(eyePosition.transform.position, target.transform.position + transform.up * 1f, Color.red, 0.1f);
+                        Debug.DrawLine(eyePosition.transform.position, target.transform.position + transform.up * 1f, Color.red, debugLineDuration);
                         canSeePlayer = false;
                     }
                 }
