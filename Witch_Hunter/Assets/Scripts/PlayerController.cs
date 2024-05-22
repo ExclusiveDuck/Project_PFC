@@ -52,6 +52,12 @@ public class PlayerController : MonoBehaviour
     {
         if (!isEquipped)
         {
+            sword.SetActive(true);
+            swordOnShoulder.SetActive(false);
+            isEquipped = !isEquipped;
+        }
+        else
+        {
             sword.SetActive(false);
             swordOnShoulder.SetActive(true);
             isEquipped = !isEquipped;
