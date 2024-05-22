@@ -12,6 +12,8 @@ public class AttributesManager : MonoBehaviour
     public void TakeDamage(int amount)
     {
         health -= amount;
+        Vector3 randomness = new Vector3(Random.Range(0f, 0.25f), Random.Range(0f, 0.2f), Random.Range(0f, 0.2f));
+        DamagePopUpGenerator.current.CreatePopUp(transform.position, amount.ToString(), Color.yellow);
     }
     public void DealDamage(GameObject target)
     {
