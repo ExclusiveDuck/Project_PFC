@@ -27,6 +27,10 @@ public class PlayerController : MonoBehaviour
     private float timeSinceAttack;
     public int currentAttack = 0;
 
+    //Sword collider variable
+    public BoxCollider swordCollider;
+    
+
     private void Update()
     {
         timeSinceAttack += Time.deltaTime;
@@ -36,6 +40,21 @@ public class PlayerController : MonoBehaviour
         Equip();
         Block();
         Kick();
+    }
+
+   
+
+   
+    public void ActivateSwordCollider()
+    {
+        Debug.Log("ActivateSwordCollider");
+        swordCollider.enabled = true;
+    }
+
+    public void DeactivateSwordCollider()
+    {
+        Debug.Log("DeactivateSwordCollider");
+        swordCollider.enabled = false;
     }
 
 
