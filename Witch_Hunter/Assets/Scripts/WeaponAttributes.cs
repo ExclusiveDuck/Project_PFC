@@ -13,7 +13,7 @@ public class WeaponAttributes : MonoBehaviour
         
         if (other.gameObject.tag ==("Enemy"))
         {
-            Debug.Log("HitReg");
+            //Debug.Log("HitReg");
             enemyAM.GetComponent<AttributesManager>().TakeDamage(playerAM.attack);
         }
     }

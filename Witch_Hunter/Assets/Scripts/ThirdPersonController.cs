@@ -15,6 +15,12 @@ namespace StarterAssets
 #endif
     public class ThirdPersonController : MonoBehaviour
     {
+        //CUSTOM NPC INTERACTABLE DIALOGUE
+        static public bool dialogue = false;
+
+      
+
+
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 2.0f;

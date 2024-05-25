@@ -269,9 +269,4 @@ public class NPCBehaviour : MonoBehaviour
             Debug.LogWarning("SET DEST:  Unable to find a valid position on the NavMesh.");
         }
     }
-
-
-
-
-
 }

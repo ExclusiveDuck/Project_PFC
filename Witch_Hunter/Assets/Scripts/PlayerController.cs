@@ -47,13 +47,13 @@ public class PlayerController : MonoBehaviour
    
     public void ActivateSwordCollider()
     {
-        Debug.Log("ActivateSwordCollider");
+        //Debug.Log("ActivateSwordCollider");
         swordCollider.enabled = true;
     }
 
     public void DeactivateSwordCollider()
     {
-        Debug.Log("DeactivateSwordCollider");
+        //Debug.Log("DeactivateSwordCollider");
         swordCollider.enabled = false;
     }
 
