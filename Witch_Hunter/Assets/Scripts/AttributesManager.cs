@@ -11,25 +11,52 @@ public class AttributesManager : MonoBehaviour
     public float critChance = 0.5f;
     public Animator anim;
     public bool isEnemyDead;
+    public bool isPlayerDead;
+    public bool isPlayer;
+    public bool isEnemy;
+    public Transform resetPosition;
+    public PlayerController pController;
 
     public void Update()
     {
-        if (health <= 0 && isEnemyDead == false)
+        if (health <= 0 && isEnemyDead == false || health <= 0 && isPlayerDead == false)
         {
-            isEnemyDead = true;
-            anim.SetTrigger("isDead");
-            GetComponent<NavMeshAgent>().speed = 0;
-            GetComponent<NPCBehaviour>().rotateSpeed = 0;
-            
-            Destroy(gameObject, 3);
+
+            if (isPlayer && isPlayerDead == false)
+            {
+                isPlayerDead = true;
+                anim.SetTrigger("isDead");
+                //Stop Moving
+                Invoke("ResetPlayer", 0.5f);
+
+            }
+            if (isEnemy && isEnemyDead == false)
+            {
+                isEnemyDead = true;
+                anim.SetTrigger("isDead");
+                GetComponent<NavMeshAgent>().speed = 0;
+                GetComponent<NPCBehaviour>().rotateSpeed = 0;
+                Destroy(gameObject, 3);
+            }
+
         }
     }
 
     public void TakeDamage(int amount)
     {
-        health -= amount;
-        Vector3 randomness = new Vector3(Random.Range(0f, 0.25f), Random.Range(0f, 0.2f), Random.Range(0f, 0.2f));
-        DamagePopUpGenerator.current.CreatePopUp(transform.position, amount.ToString(), Color.yellow);
+        if (isPlayer && pController.isBlocking == false)
+        {
+            health -= amount;
+            Vector3 randomness = new Vector3(Random.Range(0f, 0.25f), Random.Range(0f, 0.2f), Random.Range(0f, 0.2f));
+            DamagePopUpGenerator.current.CreatePopUp(transform.position, amount.ToString(), Color.yellow);
+        }
+        if (isEnemy)
+        {
+            health -= amount;
+            Vector3 randomness = new Vector3(Random.Range(0f, 0.25f), Random.Range(0f, 0.2f), Random.Range(0f, 0.2f));
+            DamagePopUpGenerator.current.CreatePopUp(transform.position, amount.ToString(), Color.yellow);
+        }
+
        
     }
     public void DealDamage(GameObject target)
@@ -46,5 +73,12 @@ public class AttributesManager : MonoBehaviour
         {
             atm.TakeDamage(attack);
         }
+    }
+
+    public void ResetPlayer()
+    {
+        health = 100;
+        //transform.position = resetPosition.position;
+        isPlayerDead = false;
     }
 }

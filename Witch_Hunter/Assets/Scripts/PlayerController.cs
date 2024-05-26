@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     //Third person Controller reference
     [SerializeField]
     private Animator playerAnim;
+    PlayerInput playerInput;
+    InputAction meleeAttack;
+    InputAction equipAction;
+    InputAction blockAction;
 
     //Equip-Unequip parameters
     [SerializeField]
@@ -29,7 +34,21 @@ public class PlayerController : MonoBehaviour
 
     //Sword collider variable
     public BoxCollider swordCollider;
-    
+
+    //CUSTOM NPC INTERACTABLE DIALOGUE
+    static public bool dialogue = false;
+
+
+    private void Start()
+    {
+        playerInput = GetComponent<PlayerInput>();
+        meleeAttack = playerInput.actions["MeleeAttack"];
+        meleeAttack.ReadValue<float>();
+        equipAction = playerInput.actions["Equip"];
+        equipAction.ReadValue<float>();
+        blockAction = playerInput.actions["Block"];
+        blockAction.ReadValue<float>();
+    }
 
     private void Update()
     {
@@ -41,8 +60,6 @@ public class PlayerController : MonoBehaviour
         Block();
         Kick();
     }
-
-   
 
    
     public void ActivateSwordCollider()
@@ -60,7 +77,7 @@ public class PlayerController : MonoBehaviour
 
     private void Equip()
     {
-        if (Input.GetKeyDown(KeyCode.R) && playerAnim.GetBool("Grounded"))
+        if (equipAction.WasPerformedThisFrame() && playerAnim.GetBool("Grounded"))
         {
             isEquipping = true;
             playerAnim.SetTrigger("Equip");
@@ -92,7 +109,7 @@ public class PlayerController : MonoBehaviour
 
     private void Block()
     {
-        if (Input.GetKey(KeyCode.Mouse1) && playerAnim.GetBool("Grounded"))
+        if (blockAction.IsPressed() && playerAnim.GetBool("Grounded"))
         {
             playerAnim.SetBool("Block", true);
             isBlocking = true;
@@ -122,7 +139,7 @@ public class PlayerController : MonoBehaviour
     private void Attack()
     {
 
-        if (Input.GetMouseButton(0) && playerAnim.GetBool("Grounded") && timeSinceAttack > 0.8f)
+        if (meleeAttack.IsPressed() && playerAnim.GetBool("Grounded") && timeSinceAttack > 0.8f)
         {
             if (!isEquipped)
                 return;

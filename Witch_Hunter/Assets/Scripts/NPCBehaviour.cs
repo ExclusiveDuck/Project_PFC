@@ -12,6 +12,8 @@ public enum AIState { Patrol, Chase, Search }
 public class NPCBehaviour : MonoBehaviour
 {
     // General AI variables
+    public AttributesManager attributesManager;
+    public Animator anim;
     public AIState myState = AIState.Patrol;
     public NavMeshAgent agent;
     public bool isAlive = true;
@@ -37,6 +39,13 @@ public class NPCBehaviour : MonoBehaviour
     // Private variables
     private RaycastHit hit;
 
+    [Header("Attack State")]
+    public BoxCollider attackbox;
+    public float attackRange;
+    public bool canMove;
+    public bool canAttack;
+    public float attackResetTime;
+
 
 
 
@@ -53,12 +62,18 @@ public class NPCBehaviour : MonoBehaviour
         ProcessPerception();
 
         // run the current state method
-        if (myState == AIState.Patrol)
+        if (myState == AIState.Patrol && canMove)
             Patrol();
-        if (myState == AIState.Chase)
+        if (myState == AIState.Chase && canMove)
             Chase();
-        if (myState == AIState.Search)
+        if (myState == AIState.Search && canMove)
             Search();
+
+        if (Vector3.Distance(transform.position, target.transform.position) < attackRange && canAttack)
+        {
+            Attack();
+        }
+
     }
 
 
@@ -119,8 +134,10 @@ public class NPCBehaviour : MonoBehaviour
     {
         //Debug.Log("I'm Chasing.");
 
+
+
         // move towards player
-        SetDestination(target.transform.position, 0);
+        SetDestination(target.transform.position, attackRange);
 
 
         // if can't see player for a few seconds, go to search state
@@ -144,8 +161,38 @@ public class NPCBehaviour : MonoBehaviour
 
     }
 
+    private void Attack()
+    {
+        anim.SetTrigger("isAttacking");
+        Invoke("ResetAttack", attackResetTime);
+        canAttack = false;
+        canMove = false; 
+    }
 
 
+    public void ActivateDamageCollider()
+    {
+        attackbox.enabled = true;
+    }
+    public void DeactivateDamageCollider()
+    {
+        attackbox.enabled = false;
+        canMove = true;
+
+    }
+
+    private void ResetAttack()
+    {
+        canAttack = true;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            other.GetComponent<AttributesManager>().TakeDamage(attributesManager.attack);
+        }
+    }
 
     void Search()
     {
