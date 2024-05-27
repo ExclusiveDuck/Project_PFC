@@ -100,7 +100,7 @@ public class NPCBehaviour : MonoBehaviour
         {
             myPatrolPointIndex = 0;
             MoveToNewPatrolPoint();
-            //Debug.Log("Agent: Set to go to first patrol point");
+            Debug.Log("Agent: Set to go to first patrol point");
         }
 
 
@@ -307,13 +307,13 @@ public class NPCBehaviour : MonoBehaviour
             else
             {
                 // Log a warning if the agent cannot reach the destination
-                Debug.LogWarning("SET DEST:  Agent cannot reach the destination!");
+                Debug.Log("SET DEST:  Agent cannot reach the destination!");
             }
         }
         else
         {
             // Log a warning if a valid position could not be found on the NavMesh
-            Debug.LogWarning("SET DEST:  Unable to find a valid position on the NavMesh.");
+            Debug.Log("SET DEST:  Unable to find a valid position on the NavMesh.");
         }
     }
 }
