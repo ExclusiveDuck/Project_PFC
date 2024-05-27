@@ -10,11 +10,15 @@ public class WeaponAttributes : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        
-        if (other.gameObject.tag ==("Enemy"))
-        {
+        Debug.Log("Sword hit object named: " + other.gameObject.name);
+
+        if (other.gameObject.tag == "Enemy")
+        {    
+            Debug.Log("Weapon hit enemy.");
+            enemyAM = other.gameObject.GetComponent<AttributesManager>();
+
             //Debug.Log("HitReg");
-            enemyAM.GetComponent<AttributesManager>().TakeDamage(playerAM.attack);
+            enemyAM.TakeDamage(playerAM.attack, enemyAM);
         }
     }
 }

@@ -138,9 +138,10 @@ public class PlayerController : MonoBehaviour
 
     private void Attack()
     {
-
+        FindObjectOfType<AudioManager>().Play("Attack 1");
         if (meleeAttack.IsPressed() && playerAnim.GetBool("Grounded") && timeSinceAttack > 0.8f)
         {
+            
             if (!isEquipped)
                 return;
 

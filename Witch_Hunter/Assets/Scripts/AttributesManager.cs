@@ -17,6 +17,13 @@ public class AttributesManager : MonoBehaviour
     public Transform resetPosition;
     public PlayerController pController;
 
+    // Stop "double hit" happening
+    public bool isInvincible = false;
+    public float invincibleTimer = 0f;
+    public float invincibleTimerDuration = 1.5f;
+
+
+
     public void Update()
     {
         if (health <= 0 && isEnemyDead == false || health <= 0 && isPlayerDead == false)
@@ -28,7 +35,6 @@ public class AttributesManager : MonoBehaviour
                 anim.SetTrigger("isDead");
                 //Stop Moving
                 Invoke("ResetPlayer", 0.5f);
-
             }
             if (isEnemy && isEnemyDead == false)
             {
@@ -40,25 +46,63 @@ public class AttributesManager : MonoBehaviour
             }
 
         }
+        else // is alive
+        {
+            UpdateInvincibleTimer();
+        }
     }
 
-    public void TakeDamage(int amount)
+
+    void UpdateInvincibleTimer()
     {
+        if (isInvincible)
+        {
+            // update timer
+            invincibleTimer += Time.deltaTime;
+            // if timer has elapsed, reset invincible (turn off)
+            if (invincibleTimer > invincibleTimerDuration)
+            {
+                isInvincible = false;
+                invincibleTimer = 0f;
+            }
+        }
+    }
+
+
+    public void TakeDamage(int amount, AttributesManager targetAM)  // pass in refernce to the AttributeManager on the thing that is taking damage
+    {
+        // MUZ HACKS
+
+        // could add in a check here if the AttributeManager passed in isInvincle or not.  If they are, return
+
+        if (targetAM.isInvincible)
+        {
+            Debug.Log("The hit enemy is on invincibility timeout... skip damage!");
+            return;
+        }
+
         if (isPlayer && pController.isBlocking == false)
         {
+            //Debug.Log("Enemy HIT PLAYER - TAKE DAMAGE");   // YES
             health -= amount;
-            Vector3 randomness = new Vector3(Random.Range(0f, 0.25f), Random.Range(0f, 0.2f), Random.Range(0f, 0.2f));
+            //Vector3 randomness = new Vector3(Random.Range(0f, 0.25f), Random.Range(0f, 0.2f), Random.Range(0f, 0.2f));
             DamagePopUpGenerator.current.CreatePopUp(transform.position, amount.ToString(), Color.yellow);
+            targetAM.isInvincible = true;
         }
         if (isEnemy)
         {
+            //Debug.Log("Player HIT ENEMY - TAKE DAMAGE" + "        TargetAM position = " + targetAM.transform.position);
             health -= amount;
-            Vector3 randomness = new Vector3(Random.Range(0f, 0.25f), Random.Range(0f, 0.2f), Random.Range(0f, 0.2f));
-            DamagePopUpGenerator.current.CreatePopUp(transform.position, amount.ToString(), Color.yellow);
+            //Vector3 randomness = new Vector3(Random.Range(0f, 0.25f), Random.Range(0f, 0.2f), Random.Range(0f, 0.2f));
+            DamagePopUpGenerator.current.CreatePopUp(new Vector3(targetAM.transform.position.x, 1f, targetAM.transform.position.z), amount.ToString(), Color.yellow);
+            targetAM.isInvincible = true;
         }
 
-       
+
     }
+
+
+    /*
     public void DealDamage(GameObject target)
     {
         float totalDamage = attack;
@@ -74,6 +118,8 @@ public class AttributesManager : MonoBehaviour
             atm.TakeDamage(attack);
         }
     }
+    */
+
 
     public void ResetPlayer()
     {

@@ -12,11 +12,11 @@ public class DamageTest : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F11))
         {
-            playerAtm.DealDamage(enemyAtm.gameObject);
+            //playerAtm.DealDamage(enemyAtm.gameObject);
         }
         if (Input.GetKeyDown(KeyCode.F12))
         {
-            enemyAtm.DealDamage(playerAtm.gameObject);
+            //enemyAtm.DealDamage(playerAtm.gameObject);
         }
     }
             

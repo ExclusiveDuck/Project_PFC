@@ -15,17 +15,27 @@ public class DamagePopUpGenerator : MonoBehaviour
         current = this;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.F10))
-        {
-            CreatePopUp(Vector3.one, Random.Range(0, 1000).ToString(), Color.yellow);
-        }
-    }
+   
 
-    public void CreatePopUp(Vector3 position, string text, Color color)
+    public void CreatePopUp(Vector3 pos, string text, Color color)
     {
-        var popup = Instantiate(prefab, position, Quaternion.identity);
+        //Debug.Log("POPUP!");    // YES
+
+        /*
+        // if position given for popup is Vector3.zero, then we know this is an ememy health popup
+        if (pos == Vector3.zero)
+        {
+            Debug.Log("Vector3.Zero, therefore:  Player hit ENEMY - do damage popup.");
+            // set position to this script
+            pos = ;
+        }
+        else
+        {
+            Debug.Log("Enemy hit PLAYER - do damage popup.");   // YES
+        }
+        */
+
+        var popup = Instantiate(prefab, pos, Quaternion.identity);
         var temp = popup.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         temp.text = text;
         temp.faceColor = color;

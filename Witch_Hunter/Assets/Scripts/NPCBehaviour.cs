@@ -201,7 +201,11 @@ public class NPCBehaviour : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            other.GetComponent<AttributesManager>().TakeDamage(attributesManager.attack);
+            // MUZ HACKS
+            // 
+            AttributesManager playerAM = other.GetComponent<AttributesManager>();
+
+            playerAM.TakeDamage(attributesManager.attack, playerAM);
         }
     }
 

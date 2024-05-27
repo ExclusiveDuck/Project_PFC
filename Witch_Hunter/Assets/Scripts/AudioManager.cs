@@ -1,22 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.Audio;
 using UnityEngine;
+using System;
+using Unity.VisualScripting;
+
 
 public class AudioManager : MonoBehaviour
 {
-    [Header("Audio Source")]
-    [SerializeField] AudioSource musicSource;
-    [SerializeField] AudioSource SFXSource;
+    public Sound[] sounds;
 
+    void Awake ()
+    {
+        foreach (Sound s in sounds)
+        {
+            s.source = gameObject.AddComponent<AudioSource>();
+            s.source.clip = s.clip;
 
-    //Duplicate for each SFX needed and rename
-
-    [Header("Audio Clip")]
-    public AudioClip background;
-
+            s.source.volume = s.volume;
+            s.source.pitch = s.pitch;
+        }
+    }
     private void Start()
     {
-        musicSource.clip = background;
-        musicSource.Play();
+        Play("Music");
+    }
+
+    public void Play (string name)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        s.source.Play();
     }
 }
