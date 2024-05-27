@@ -9,10 +9,7 @@ public class PatrolPoint : MonoBehaviour
 
     private void Start()
     {
-        if (disableRendererOnStart)
-        {
-            // turn off my renderer on start-up
-            meshRenderer.enabled = false;
-        }
+        // turn off my renderer on start-up
+        meshRenderer.enabled = false;
     }
 }

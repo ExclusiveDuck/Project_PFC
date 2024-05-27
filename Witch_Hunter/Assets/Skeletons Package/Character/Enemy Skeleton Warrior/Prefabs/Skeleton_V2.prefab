@@ -1693,7 +1693,7 @@ MonoBehaviour:
   lostPlayerTimer: 0
   lostPlayerGiveUpDuration: 2
   searchTimer: 0
-  searchDuration: 5
+  searchDuration: 10
   attackbox: {fileID: 4882428510374395151}
   attackRange: 2.3
   canMove: 1
@@ -1731,7 +1731,7 @@ BoxCollider:
   m_GameObject: {fileID: 2809778249656842921}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1.6538857, y: 0.93985367, z: 1}
   m_Center: {x: 0.041723117, y: 1.0668631, z: 0.8999999}
