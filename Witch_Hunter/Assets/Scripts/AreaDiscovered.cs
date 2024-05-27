@@ -34,6 +34,34 @@ public class AreaDiscovered : MonoBehaviour
         Destroy(titleTrigger);
         Destroy(gameObject);
     }
+
+    void Fade()
+    {
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //private void Start()
     //{
     //    //fadeAway = GetComponent<TextMeshProUGUI>();

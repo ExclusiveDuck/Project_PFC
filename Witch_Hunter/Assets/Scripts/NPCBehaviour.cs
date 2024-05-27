@@ -11,7 +11,7 @@ public enum AIState { Patrol, Chase, Search }
 [SelectionBase]
 public class NPCBehaviour : MonoBehaviour
 {
-    // General AI variables
+    [Header("General AI variables")]
     public AttributesManager attributesManager;
     public Animator anim;
     public AIState myState = AIState.Patrol;
@@ -19,20 +19,26 @@ public class NPCBehaviour : MonoBehaviour
     public bool isAlive = true;
     public bool canSeePlayer = false;
     public float fieldOfView = 100f;
+    public float perceptionDistance = 10f;
     public Transform eyePosition;
     public GameObject target;
     public float debugLineDuration = 1f;
     public float rotateSpeed = 20f;
 
-    // Patrol State
+    [Header("Move Speeds")]
+    public float patrolSpeed = 1.4f;
+    public float chaseSpeed = 3.0f;
+
+
+    [Header("Patrol State")]
     public List<PatrolPoint> myPatrolPoints = new List<PatrolPoint>();
     public int myPatrolPointIndex = -1;
 
-    // Chase State
+    [Header("Chase State")]
     public float lostPlayerTimer = 0f;
     public float lostPlayerGiveUpDuration = 2f;
 
-    // Search State
+    [Header("Search State")]
     public float searchTimer = 0f;
     public float searchDuration = 4f;
 
@@ -59,20 +65,23 @@ public class NPCBehaviour : MonoBehaviour
 
     void Update()
     {
-        ProcessPerception();
-
-        // run the current state method
-        if (myState == AIState.Patrol && canMove)
-            Patrol();
-        if (myState == AIState.Chase && canMove)
-            Chase();
-        if (myState == AIState.Search && canMove)
-            Search();
-
-        if (Vector3.Distance(transform.position, target.transform.position) < attackRange && canAttack)
+        if (agent.isActiveAndEnabled && agent.isOnNavMesh)
         {
-            Attack();
-        }
+            ProcessPerception();
+
+            // run the current state method
+            if (myState == AIState.Patrol && canMove)
+                Patrol();
+            if (myState == AIState.Chase && canMove)
+                Chase();
+            if (myState == AIState.Search && canMove)
+                Search();
+
+            if (Vector3.Distance(transform.position, target.transform.position) < attackRange && canAttack)
+            {
+                Attack();
+            }
+        }        
 
     }
 
@@ -83,6 +92,7 @@ public class NPCBehaviour : MonoBehaviour
     {
         if (canSeePlayer)
         {
+            agent.speed = chaseSpeed;
             myState = AIState.Chase;
             return;
         }
@@ -147,6 +157,7 @@ public class NPCBehaviour : MonoBehaviour
             // if timer reaches limit, go to Search
             if (lostPlayerTimer > lostPlayerGiveUpDuration)
             {
+                agent.speed = patrolSpeed;
                 // go to search state
                 myState = AIState.Search;
                 //reset timer
@@ -205,6 +216,7 @@ public class NPCBehaviour : MonoBehaviour
         // if detect player, chase
         if (canSeePlayer)
         {
+            agent.speed = chaseSpeed;
             myState = AIState.Chase;
             return;
         }
@@ -216,6 +228,7 @@ public class NPCBehaviour : MonoBehaviour
             // if timer reaches limit, go back to Patrol
             if (searchTimer > searchDuration)
             {
+                agent.speed = patrolSpeed;
                 // go to patrol state
                 myState = AIState.Patrol;
                 MoveToNewPatrolPoint();
@@ -249,8 +262,8 @@ public class NPCBehaviour : MonoBehaviour
                     // if the name of the Collider on the player (target) == the name of the Collider the raycast hit first...
                     if (hit.collider.name == "PlayerArmature")
                     {
-                        // if player is in my FieldOfView
-                        if (Vector3.Angle(target.transform.position - eyePosition.transform.position, transform.forward) <= fieldOfView / 2)
+                        // if player is in my FieldOfView & within Perception Distance
+                        if (Vector3.Angle(target.transform.position - eyePosition.transform.position, transform.forward) <= fieldOfView / 2 && Vector3.Distance(transform.position, target.transform.position) < perceptionDistance)
                         {
                             // draw GREEN line
                             Debug.DrawLine(eyePosition.transform.position, target.transform.position + transform.up * 1f, Color.green, debugLineDuration);
