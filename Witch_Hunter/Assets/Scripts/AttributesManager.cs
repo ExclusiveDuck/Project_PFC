@@ -36,10 +36,8 @@ public class AttributesManager : MonoBehaviour
 
             if (isPlayer && isPlayerDead == false)
             {
-                
-
                 isPlayerDead = true;
-                audioManager.Play("Player Death");
+                
                 //Stop Moving
                 Invoke("ResetPlayer", 0.5f);
             }
@@ -89,20 +87,23 @@ public class AttributesManager : MonoBehaviour
             Debug.Log("The hit enemy is on invincibility timeout... skip damage!");
             return;
         }
-
-        if (isPlayer && pController.isBlocking == false)
+        if (isPlayer && pController.isBlocking == true)
         {
-            //Debug.Log("Enemy HIT PLAYER - TAKE DAMAGE");   // YES
+            audioManager.Play("Shield Hit");
+        }
+            if (isPlayer && pController.isBlocking == false)
+        {
+            audioManager.Play("Player Hit");
             health -= amount;
-            //Vector3 randomness = new Vector3(Random.Range(0f, 0.25f), Random.Range(0f, 0.2f), Random.Range(0f, 0.2f));
-            DamagePopUpGenerator.current.CreatePopUp(transform.position, amount.ToString(), Color.yellow);
+           
+            DamagePopUpGenerator.current.CreatePopUp(transform.position, amount.ToString(), Color.red);
             targetAM.isInvincible = true;
         }
         if (isEnemy)
         {
             //Debug.Log("Player HIT ENEMY - TAKE DAMAGE" + "        TargetAM position = " + targetAM.transform.position);
             health -= amount;
-            //Vector3 randomness = new Vector3(Random.Range(0f, 0.25f), Random.Range(0f, 0.2f), Random.Range(0f, 0.2f));
+            
             DamagePopUpGenerator.current.CreatePopUp(new Vector3(targetAM.transform.position.x, 1f, targetAM.transform.position.z), amount.ToString(), Color.yellow);
             targetAM.isInvincible = true;
         }
@@ -110,30 +111,10 @@ public class AttributesManager : MonoBehaviour
 
     }
 
-
-    /*
-    public void DealDamage(GameObject target)
-    {
-        float totalDamage = attack;
-
-        // Count RNG Chance
-        if(Random.Range(0f, 1f)< critChance)
-        {
-            totalDamage *= critDamage;
-        }
-        var atm = target.GetComponent<AttributesManager>();
-        if(atm != null)
-        {
-            atm.TakeDamage(attack);
-        }
-    }
-    */
-
-
     public void ResetPlayer()
     {
         health = 100;
-        //transform.position = resetPosition.position;
+        transform.position = resetPosition.position;
         isPlayerDead = false;
     }
 }

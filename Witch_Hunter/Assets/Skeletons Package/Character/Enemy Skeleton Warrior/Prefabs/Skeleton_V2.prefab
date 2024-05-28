@@ -1680,10 +1680,14 @@ MonoBehaviour:
   isAlive: 1
   canSeePlayer: 1
   fieldOfView: 100
+  perceptionDistance: 10
   eyePosition: {fileID: 2921437180233510583}
   target: {fileID: 0}
-  debugLineDuration: 1
+  debugLineDuration: 0.01
   rotateSpeed: 90
+  audioManager: {fileID: 0}
+  patrolSpeed: 1.4
+  chaseSpeed: 3
   myPatrolPoints:
   - {fileID: 0}
   - {fileID: 0}
@@ -1711,7 +1715,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 170c6ab9beffacf44a1da60de719b588, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
+  health: 300
   attack: 20
   critDamage: 0.5
   critChance: 0.5
@@ -1722,6 +1726,10 @@ MonoBehaviour:
   isEnemy: 1
   resetPosition: {fileID: 0}
   pController: {fileID: 0}
+  audioManager: {fileID: 0}
+  isInvincible: 0
+  invincibleTimer: 0
+  invincibleTimerDuration: 0.3
 --- !u!65 &4882428510374395151
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1733,8 +1741,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 1.6538857, y: 0.93985367, z: 1}
-  m_Center: {x: 0.041723117, y: 1.0668631, z: 0.8999999}
+  m_Size: {x: 1.6538857, y: 0.93985367, z: 1.1071224}
+  m_Center: {x: 0.041723132, y: 1.0668631, z: 0.9535612}
 --- !u!1 &2958064488589388476
 GameObject:
   m_ObjectHideFlags: 0
