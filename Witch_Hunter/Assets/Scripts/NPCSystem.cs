@@ -8,7 +8,10 @@ public class NPCSystem : MonoBehaviour
 {
     //public GameObject d_template;
 
-//bool player_detection = false;
+    //bool player_detection = false;
+
+    //Audio
+    public AudioManager audioManager;
 
     public PlayerInput playerInput;
     InputAction interactAction;
@@ -18,6 +21,12 @@ public class NPCSystem : MonoBehaviour
     public GameObject dialogueCanvas;
     public float detectionRange;
     bool canPress;
+
+    private void Start()
+    {
+        // get reference to the audio manager
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+    }
 
     private void Awake()
     {
@@ -71,6 +80,8 @@ public class NPCSystem : MonoBehaviour
 
                 if (interactAction.IsPressed() && canPress)
                 {
+                    audioManager.Play("UI Hover");
+                    Debug.Log("Play UI Hover sound!");
 
                     canPress = false;
                     Invoke("ResetPress", 0.25f);

@@ -25,6 +25,8 @@ public class NPCBehaviour : MonoBehaviour
     public float debugLineDuration = 1f;
     public float rotateSpeed = 20f;
 
+    public AudioManager audioManager;
+
     [Header("Move Speeds")]
     public float patrolSpeed = 1.4f;
     public float chaseSpeed = 3.0f;
@@ -51,6 +53,12 @@ public class NPCBehaviour : MonoBehaviour
     public bool canMove;
     public bool canAttack;
     public float attackResetTime;
+
+    private void Start()
+    {
+        // get reference to the audio manager
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+    }
 
 
 
@@ -92,6 +100,8 @@ public class NPCBehaviour : MonoBehaviour
     {
         if (canSeePlayer)
         {
+            audioManager.Play("Creature Noise");
+            Debug.Log("Play Creature Noise!");
             agent.speed = chaseSpeed;
             myState = AIState.Chase;
             return;
@@ -142,17 +152,14 @@ public class NPCBehaviour : MonoBehaviour
 
     void Chase()
     {
-        //Debug.Log("I'm Chasing.");
-
-
 
         // move towards player
         SetDestination(target.transform.position, attackRange);
 
-
         // if can't see player for a few seconds, go to search state
         if (!canSeePlayer)
         {
+            
             lostPlayerTimer += Time.deltaTime;
             // if timer reaches limit, go to Search
             if (lostPlayerTimer > lostPlayerGiveUpDuration)
@@ -221,6 +228,8 @@ public class NPCBehaviour : MonoBehaviour
         if (canSeePlayer)
         {
             agent.speed = chaseSpeed;
+            audioManager.Play("Creature Noise");
+            Debug.Log("Play Creature Noise!");
             myState = AIState.Chase;
             return;
         }
@@ -263,12 +272,15 @@ public class NPCBehaviour : MonoBehaviour
                 // draw a Linecast from the enemy to the player
                 if (Physics.Linecast(eyePosition.transform.position, target.transform.position + transform.up * 1f, out hit))
                 {
+                    
                     // if the name of the Collider on the player (target) == the name of the Collider the raycast hit first...
                     if (hit.collider.name == "PlayerArmature")
                     {
+                        
                         // if player is in my FieldOfView & within Perception Distance
                         if (Vector3.Angle(target.transform.position - eyePosition.transform.position, transform.forward) <= fieldOfView / 2 && Vector3.Distance(transform.position, target.transform.position) < perceptionDistance)
                         {
+                           
                             // draw GREEN line
                             Debug.DrawLine(eyePosition.transform.position, target.transform.position + transform.up * 1f, Color.green, debugLineDuration);
 

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Audio;
 
 public class PlayerController : MonoBehaviour
 {
@@ -20,6 +21,9 @@ public class PlayerController : MonoBehaviour
     private GameObject swordOnShoulder;
     public bool isEquipping;
     public bool isEquipped;
+
+    //Audio
+    public AudioManager audioManager;
 
     //Blocking Parameters
     public bool isBlocking;
@@ -48,6 +52,10 @@ public class PlayerController : MonoBehaviour
         equipAction.ReadValue<float>();
         blockAction = playerInput.actions["Block"];
         blockAction.ReadValue<float>();
+
+        // get reference to the audio manager
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+
     }
 
     private void Update()
@@ -77,10 +85,13 @@ public class PlayerController : MonoBehaviour
 
     private void Equip()
     {
+        
         if (equipAction.WasPerformedThisFrame() && playerAnim.GetBool("Grounded"))
         {
             isEquipping = true;
             playerAnim.SetTrigger("Equip");
+            audioManager.Play("DrawSword");
+            Debug.Log("Play SWORD EQUIP sound!");
         }
     }
     
@@ -138,10 +149,12 @@ public class PlayerController : MonoBehaviour
 
     private void Attack()
     {
-        FindObjectOfType<AudioManager>().Play("Attack 1");
+
         if (meleeAttack.IsPressed() && playerAnim.GetBool("Grounded") && timeSinceAttack > 0.8f)
         {
-            
+            audioManager.Play("Attack 1");
+            Debug.Log("Play Attack 1 sound!");
+
             if (!isEquipped)
                 return;
 
@@ -152,7 +165,7 @@ public class PlayerController : MonoBehaviour
                 currentAttack = 1;
 
             //Reset
-            if (timeSinceAttack > 1.0f)
+            if (timeSinceAttack > 1f)
                 currentAttack = 1;
 
             //Call Attack Triggers

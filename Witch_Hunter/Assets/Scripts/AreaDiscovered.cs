@@ -4,17 +4,23 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+
 public class AreaDiscovered : MonoBehaviour
 {
-   // private float alphaValue;
-   // private float fadeAwayPerSecond;
-   // public TextMeshProUGUI fadeAway;
-   // 
-   // public float fadeTime;
+    public AudioManager audioManager;
+
+
+    // private float alphaValue;
+    // private float fadeAwayPerSecond;
+    // public TextMeshProUGUI fadeAway;
+    // 
+    // public float fadeTime;
 
     public GameObject titleTrigger;
     void Start()
     {
+        // get reference to the audio manager
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         titleTrigger.SetActive(false);
     }
 
@@ -22,6 +28,8 @@ public class AreaDiscovered : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
+            audioManager.Play("Area Discovered");
+            Debug.Log("Play Area Discovered");
             Debug.Log("AreadDisc");
             titleTrigger.SetActive(true);
             StartCoroutine("WaitForSec");

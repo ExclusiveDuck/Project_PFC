@@ -16,6 +16,7 @@ public class AttributesManager : MonoBehaviour
     public bool isEnemy;
     public Transform resetPosition;
     public PlayerController pController;
+    public AudioManager audioManager;
 
     // Stop "double hit" happening
     public bool isInvincible = false;
@@ -23,7 +24,11 @@ public class AttributesManager : MonoBehaviour
     public float invincibleTimerDuration = 1.5f;
 
 
-
+    private void Start()
+    {
+        // get reference to the audio manager
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+    }
     public void Update()
     {
         if (health <= 0 && isEnemyDead == false || health <= 0 && isPlayerDead == false)
@@ -31,13 +36,17 @@ public class AttributesManager : MonoBehaviour
 
             if (isPlayer && isPlayerDead == false)
             {
+                
+
                 isPlayerDead = true;
-                anim.SetTrigger("isDead");
+                audioManager.Play("Player Death");
                 //Stop Moving
                 Invoke("ResetPlayer", 0.5f);
             }
             if (isEnemy && isEnemyDead == false)
             {
+                
+                anim.SetTrigger("isDead");
                 isEnemyDead = true;
                 anim.SetTrigger("isDead");
                 GetComponent<NavMeshAgent>().speed = 0;
