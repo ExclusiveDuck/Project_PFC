@@ -2,9 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class AttributesManager : MonoBehaviour
 {
+    //Player Health
+    public int maxHealth = 100;
+    public int currentHealth;
+    public HealthBar healthBar;
+   
+
     public int health;
     public int attack;
     public float critDamage = 0.5f;
@@ -23,11 +30,22 @@ public class AttributesManager : MonoBehaviour
     public float invincibleTimer = 0f;
     public float invincibleTimerDuration = 1.5f;
 
-
+    
     private void Start()
     {
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
+
+      
+
         // get reference to the audio manager
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+    }
+
+    void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        healthBar.SetHealth(currentHealth);
     }
     public void Update()
     {
