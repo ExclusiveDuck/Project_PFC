@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using Cinemachine;
 
 public class AttributesManager : MonoBehaviour
 {
+    public float shakeIntensity;
+    public float shakeFrequency;
+    ///private CinemachineShake cinShake;
     //Player Health
-    
-   
     public HealthBar healthBar;
-
     public int maxHealth = 100;
     public int currentHealth;
     public int attack;
@@ -35,8 +36,6 @@ public class AttributesManager : MonoBehaviour
     {
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
-
-
         // get reference to the audio manager
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
     }
@@ -104,12 +103,14 @@ public class AttributesManager : MonoBehaviour
         }
         if (isPlayer && pController.isBlocking == true)
         {
-            Debug.Log("hit while blocking");
+            //Debug.Log("hit while blocking");
             audioManager.Play("Shield Hit");
+            CinemachineShake.Instance.ShakeCamera(shakeIntensity, shakeFrequency);
         }
-            if (isPlayer && pController.isBlocking == false)
+        if (isPlayer && pController.isBlocking == false)
         {
-            audioManager.Play("Player Hit");
+            //audioManager.Play("Player Hit");
+            CinemachineShake.Instance.ShakeCamera(shakeIntensity, shakeFrequency);
             currentHealth -= amount;
 
             healthBar.SetHealth(currentHealth);

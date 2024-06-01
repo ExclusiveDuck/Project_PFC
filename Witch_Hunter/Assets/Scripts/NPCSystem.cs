@@ -81,7 +81,7 @@ public class NPCSystem : MonoBehaviour
                 if (interactAction.IsPressed() && canPress)
                 {
                     audioManager.Play("UI Hover");
-                    Debug.Log("Play UI Hover sound!");
+                    //Debug.Log("Play UI Hover sound!");
 
                     canPress = false;
                     Invoke("ResetPress", 0.25f);

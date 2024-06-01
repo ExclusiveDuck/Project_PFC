@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     public bool isEquipped;
 
     //Audio
-    public AudioManager audioManager;
+    [HideInInspector] public AudioManager audioManager;
 
     //Blocking Parameters
     public bool isBlocking;
@@ -154,7 +154,7 @@ public class PlayerController : MonoBehaviour
         if (meleeAttack.IsPressed() && playerAnim.GetBool("Grounded") && timeSinceAttack > 0.8f)
         {
             audioManager.Play("Attack 1");
-            Debug.Log("Play Attack 1 sound!");
+            //Debug.Log("Play Attack 1 sound!");
 
             if (!isEquipped)
                 return;

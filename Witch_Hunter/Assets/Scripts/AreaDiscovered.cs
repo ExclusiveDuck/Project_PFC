@@ -37,6 +37,7 @@ public class AreaDiscovered : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
+
             audioManager.Play("Area Discovered");
             
             //Debug.Log("AreaDisc");
