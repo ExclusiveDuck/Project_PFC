@@ -7,12 +7,12 @@ using UnityEngine.UI;
 public class AttributesManager : MonoBehaviour
 {
     //Player Health
+    
+   
+    public HealthBar healthBar;
+
     public int maxHealth = 100;
     public int currentHealth;
-    public HealthBar healthBar;
-   
-
-    public int health;
     public int attack;
     public float critDamage = 0.5f;
     public float critChance = 0.5f;
@@ -23,7 +23,7 @@ public class AttributesManager : MonoBehaviour
     public bool isEnemy;
     public Transform resetPosition;
     public PlayerController pController;
-    public AudioManager audioManager;
+    [HideInInspector]public AudioManager audioManager;
 
     // Stop "double hit" happening
     public bool isInvincible = false;
@@ -36,20 +36,17 @@ public class AttributesManager : MonoBehaviour
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
 
-      
 
         // get reference to the audio manager
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
     }
 
-    void TakeDamage(int damage)
-    {
-        currentHealth -= damage;
-        healthBar.SetHealth(currentHealth);
-    }
+    
+
+
     public void Update()
     {
-        if (health <= 0 && isEnemyDead == false || health <= 0 && isPlayerDead == false)
+        if (currentHealth <= 0 && isEnemyDead == false || currentHealth <= 0 && isPlayerDead == false)
         {
 
             if (isPlayer && isPlayerDead == false)
@@ -102,25 +99,28 @@ public class AttributesManager : MonoBehaviour
 
         if (targetAM.isInvincible)
         {
-            Debug.Log("The hit enemy is on invincibility timeout... skip damage!");
+            //Debug.Log("The hit enemy is on invincibility timeout... skip damage!");
             return;
         }
         if (isPlayer && pController.isBlocking == true)
         {
+            Debug.Log("hit while blocking");
             audioManager.Play("Shield Hit");
         }
             if (isPlayer && pController.isBlocking == false)
         {
             audioManager.Play("Player Hit");
-            health -= amount;
-           
+            currentHealth -= amount;
+
+            healthBar.SetHealth(currentHealth);
+
             DamagePopUpGenerator.current.CreatePopUp(transform.position, amount.ToString(), Color.red);
             targetAM.isInvincible = true;
         }
         if (isEnemy)
         {
             //Debug.Log("Player HIT ENEMY - TAKE DAMAGE" + "        TargetAM position = " + targetAM.transform.position);
-            health -= amount;
+            currentHealth -= amount;
             
             DamagePopUpGenerator.current.CreatePopUp(new Vector3(targetAM.transform.position.x, 1f, targetAM.transform.position.z), amount.ToString(), Color.yellow);
             targetAM.isInvincible = true;
@@ -131,7 +131,7 @@ public class AttributesManager : MonoBehaviour
 
     public void ResetPlayer()
     {
-        health = 100;
+        currentHealth = 100;
         transform.position = resetPosition.position;
         isPlayerDead = false;
     }

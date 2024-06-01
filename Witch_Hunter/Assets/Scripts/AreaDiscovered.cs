@@ -39,7 +39,7 @@ public class AreaDiscovered : MonoBehaviour
         {
             audioManager.Play("Area Discovered");
             
-            Debug.Log("AreaDisc");
+            //Debug.Log("AreaDisc");
 
             //turn on image
             titleTrigger.SetActive(true);
@@ -74,7 +74,7 @@ public class AreaDiscovered : MonoBehaviour
         {
             transparency += 1f * Time.deltaTime;
             image.color = new Color(image.color.r, image.color.g, image.color.b, transparency);
-            Debug.Log("FADEIN Transparency: " + transparency);
+            //Debug.Log("FADEIN Transparency: " + transparency);
 
             if (transparency > 2f)
             {
@@ -87,7 +87,7 @@ public class AreaDiscovered : MonoBehaviour
         {
             transparency -= 1f * Time.deltaTime;
             image.color = new Color(image.color.r, image.color.g, image.color.b, transparency);
-            Debug.Log("FADE OUT Transparency: " + transparency);
+            //Debug.Log("FADE OUT Transparency: " + transparency);
 
             if (transparency <= 0f)
             {

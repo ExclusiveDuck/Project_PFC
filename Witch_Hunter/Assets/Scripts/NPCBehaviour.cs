@@ -101,7 +101,7 @@ public class NPCBehaviour : MonoBehaviour
         if (canSeePlayer)
         {
             audioManager.Play("Creature Noise");
-            Debug.Log("Play Creature Noise!");
+            //Debug.Log("Play Creature Noise!");
             agent.speed = chaseSpeed;
             myState = AIState.Chase;
             return;

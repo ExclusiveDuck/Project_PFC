@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
             isEquipping = true;
             playerAnim.SetTrigger("Equip");
             audioManager.Play("DrawSword");
-            Debug.Log("Play SWORD EQUIP sound!");
+            //Debug.Log("Play SWORD EQUIP sound!");
         }
     }
     
@@ -122,6 +122,7 @@ public class PlayerController : MonoBehaviour
     {
         if (blockAction.IsPressed() && playerAnim.GetBool("Grounded"))
         {
+           
             playerAnim.SetBool("Block", true);
             isBlocking = true;
         }
