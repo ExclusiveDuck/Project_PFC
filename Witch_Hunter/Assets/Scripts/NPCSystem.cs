@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class NPCSystem : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class NPCSystem : MonoBehaviour
 
     //Audio
     public AudioManager audioManager;
-
+    public AttributesManager attributesManager;
     public PlayerInput playerInput;
     InputAction interactAction;
 
@@ -21,6 +22,8 @@ public class NPCSystem : MonoBehaviour
     public GameObject dialogueCanvas;
     public float detectionRange;
     bool canPress;
+
+    public bool missionFinished;
 
     private void Start()
     {
@@ -70,6 +73,11 @@ public class NPCSystem : MonoBehaviour
         {
             NewDialogue("If you can make sure the dead um... stay dead, I can reward you!");
         }
+        if (attributesManager.enemyKillCounter == 3)
+        {
+            NewDialogue("The light shines upon you Knight, please accept some toKKens, as a gesture of good faith!");
+        }
+            
 
         Collider[] detectionCollider = Physics.OverlapSphere(transform.position, detectionRange);
         foreach (Collider c in detectionCollider)
@@ -86,15 +94,20 @@ public class NPCSystem : MonoBehaviour
                     canPress = false;
                     Invoke("ResetPress", 0.25f);
                     indexNumber++;
+
+                    if (attributesManager.enemyKillCounter >= 3)
+                    {
+                        Destroy(dialogueCanvas);
+                        SceneManager.LoadScene(0);
+                    }
                 }
             }
-
+            else
+            {
+                dialogueCanvas.SetActive(false);
+            }
         }
 
-        if (indexNumber >= 6)
-        {
-            dialogueCanvas.SetActive(false);
-        }
     }
 
     private void ResetPress()

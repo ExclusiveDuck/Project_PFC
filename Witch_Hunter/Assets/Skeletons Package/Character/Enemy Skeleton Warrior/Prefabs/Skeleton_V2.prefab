@@ -1714,6 +1714,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 170c6ab9beffacf44a1da60de719b588, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerHit: {fileID: 2100000, guid: 32d6a7e64e4196c4682bf806a006402d, type: 2}
+  enemyHit: {fileID: 2100000, guid: 827e572eec500264abd89534c3252019, type: 2}
+  playerOriginalMaterial: {fileID: 2100000, guid: 839ab0cb59deac24691adb371e77e03e,
+    type: 2}
+  enemyOriginalMaterial: {fileID: 2100000, guid: 514d7f1911fdec84f80ac0e1aa07b44c,
+    type: 2}
+  meshRend: {fileID: 237353486100102589}
+  enemyKillCounter: 0
+  shakeIntensity: 0
+  shakeFrequency: 0
   healthBar: {fileID: 0}
   maxHealth: 100
   currentHealth: 100
